@@ -16,4 +16,9 @@ Roll again? (y/n)
 The program itself can be easily modified to suit whatever needs, as it is very simple.
 
 Future versions may have more options for different types of dice rolls, perhaps even game specific features.
-(ie, advantage from dnd)
+(ie, advantage from dnd: roll two dice and take the highest of the two)
+```
+d1 = SystemRandom().randint(1,int(sides))
+d2 = SystemRandom().randint(1,int(sides))
+A = max(d1,d2)
+```
