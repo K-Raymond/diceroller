@@ -2,6 +2,8 @@
 
 For large quantities of dice rolls!
 
+Uses Python 2.7, have not tested 3.x
+
 This is a simple script to roll a large quantity of a die that have an arbitrary number of sides.
 For example,
 ```
