@@ -1,3 +1,4 @@
+#! /usr/bin/env
 # Random Dice Generator
 
 import random
@@ -5,20 +6,19 @@ from random import SystemRandom
 import argparse
 
 # Parsing
-parser = argparse.ArgumentParser()
-parser.add_argument("normal", help="Do a normal XdY+Z roll and find the sum",
+parser = argparse.ArgumentParser(description='Calculate Dice throws')
+parser.add_argument("XdY", help="Do a normal XdY+Z roll and find the sum",
                     type=str)
 parser.add_argument("-a","--advantage", help="Roll with advantage mechanic",
                     action="store_true")
-parser.add_argument("-r","--altrandom", help="Use python randomness instead of OS randomness",
+parser.add_argument("-r","--altrandom", help="Use python randomness instead of OS randomness (Faster)",
+                    action="store_true")
+parser.add_argument("-e","--experiment", help="Experimentall calculate the distribution of values from dice rolls",
                     action="store_true")
 
 args = parser.parse_args()
 
 # Functions
-def howto():
-    print './diceroll.py XdY+C [args]'
-
 def singleroll(sides): # Roll one die with x sides
     if args.altrandom:
         x = random.randint(1,int(sides))
@@ -40,8 +40,14 @@ def bulkroll(qnty,sides):
         x = x + y
     return x
 
+def makelist(qnty,sides):
+    x = []
+    for i in range(qnty*sides-qnty+1):
+        x.append(0)
+    return x
+
 # Setting up dice input
-input = args.normal.lower()
+input = args.XdY.lower()
 
 # Optional addition onto the roll
 addon = 0
@@ -50,9 +56,18 @@ if input.find("+") != -1:
     input = input[0:input.find("+")]
 
 # Separate input into basic parts
-qnty = input[0:input.find("d")]
-sides = input[input.find("d")+1:]
+qnty = int(input[0:input.find("d")])
+sides = int(input[input.find("d")+1:])
 
-# Basic dice roll
-result = bulkroll(qnty,sides)
-print result + addon
+if args.array: # Experimental Array
+    asize = int(raw_input("How many interations? ").strip())
+    list = makelist(qnty,sides)
+    for i in range(asize):
+        x = bulkroll(qnty,sides)
+        list[x-qnty] = list[x-qnty]+1
+    print "Value"+"  "+"Qnty"
+    for i in range(len(list)):
+        print str(i+qnty)+"   "+str(list[i])      
+else: # Normal dice roll
+    result = bulkroll(qnty,sides)
+    print result + addon
