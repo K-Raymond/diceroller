@@ -28,15 +28,19 @@ def singleroll(sides): # Roll one die with x sides
 
 def advantage(sides): # Advantage mechanic for dnd 5e
     x = []
-    for i in range(2):
-        y = singleroll(sides)
-        x.append(y)
-    return max(x)
+    if args.advantage:
+            for i in range(2):
+                y = singleroll(sides)
+                x.append(y)
+                output = max(x)
+    else:
+        output = singleroll(sides)
+    return output
 
 def bulkroll(qnty,sides):
     x=0
     for i in range(int(qnty)):
-        y = singleroll(sides)
+        y = advantage(sides)
         x = x + y
     return x
 
@@ -59,7 +63,7 @@ if input.find("+") != -1:
 qnty = int(input[0:input.find("d")])
 sides = int(input[input.find("d")+1:])
 
-if args.array: # Experimental Array
+if args.experiment: # Experimental Array
     asize = int(raw_input("How many interations? ").strip())
     list = makelist(qnty,sides)
     for i in range(asize):
