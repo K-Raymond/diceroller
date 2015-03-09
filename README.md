@@ -14,7 +14,7 @@ python diceroller.py XdY+Z
 There are also analyitics that you can run on a range of dice rolls.
 For instance, if you wanted to roll 2d6 and wanted to collect a large number of rolls to experimentally determine the probablility of rolling a particular value, simply,
 
-python diceroller.py 2d6 -e <samplesize>
+python diceroller.py 2d6 -e [samplesize]
 
 samplesize can be an ungodly number, like 10**10.
 
