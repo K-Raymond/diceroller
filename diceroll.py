@@ -13,8 +13,7 @@ parser.add_argument("-a","--advantage", help="Roll with advantage mechanic",
                     action="store_true")
 parser.add_argument("-r","--altrandom", help="Use python randomness instead of OS randomness (Faster)",
                     action="store_true")
-parser.add_argument("-e","--experiment", help="Experimentall calculate the distribution of values from dice rolls",
-                    action="store_true")
+parser.add_argument("-e","--experiment", type=int, help="Experimentally calculate the distribution of values from dice rolls")
 
 args = parser.parse_args()
 
@@ -25,6 +24,19 @@ def singleroll(sides): # Roll one die with x sides
     else:
         x = SystemRandom().randint(1,int(sides))
     return x
+
+# Do a roll and take the maximum numb of rolls qnty>=numb
+## For this function, advantage is qnty=2 and numb=1
+def rollmaximum(sides,qnty = 1,numb = 1,takesum = True):
+    x = []
+    for i in range(qnty):
+            y = singleroll(sides)
+            x.append(y)
+    x = sorted(x, reverse = True)
+    if takesum:
+        return sum(x[0:numb])
+    else:
+        return x[0:numb]
 
 def advantage(sides): # Advantage mechanic for dnd 5e
     x = []
@@ -38,11 +50,13 @@ def advantage(sides): # Advantage mechanic for dnd 5e
     return output
 
 def bulkroll(qnty,sides):
-    x=0
-    for i in range(int(qnty)):
+    x = 0
+    rollsum = 0
+    while x<qnty:
         y = advantage(sides)
-        x = x + y
-    return x
+        rollsum = rollsum + y
+        x=x+1
+    return rollsum
 
 def makelist(qnty,sides):
     x = []
@@ -50,6 +64,20 @@ def makelist(qnty,sides):
         x.append(0)
     return x
 
+def rollarray(qnty,sides):
+    asize = args.experiment
+    list = makelist(qnty,sides)
+    x=0
+    rollsum = 0
+    while x<asize:
+        y = bulkroll(qnty,sides)
+        list[y-qnty] = list[y-qnty]+1
+        x = x+1
+    print "Value"+"  "+"Qnty"
+    for i in range(len(list)):
+        print str(i+qnty)+"   "+str(list[i]) 
+
+### Begin XdY+Z anaylsis
 # Setting up dice input
 input = args.XdY.lower()
 
@@ -63,15 +91,10 @@ if input.find("+") != -1:
 qnty = int(input[0:input.find("d")])
 sides = int(input[input.find("d")+1:])
 
-if args.experiment: # Experimental Array
-    asize = int(raw_input("How many interations? ").strip())
-    list = makelist(qnty,sides)
-    for i in range(asize):
-        x = bulkroll(qnty,sides)
-        list[x-qnty] = list[x-qnty]+1
-    print "Value"+"  "+"Qnty"
-    for i in range(len(list)):
-        print str(i+qnty)+"   "+str(list[i])      
+### End XdY+Z analysis
+
+if args.experiment is not None: # Experimental Array
+    rollarray(qnty,sides)     
 else: # Normal dice roll
     result = bulkroll(qnty,sides)
     print result + addon
