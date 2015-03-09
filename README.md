@@ -1,10 +1,21 @@
 # diceroller
 
-This is a basic dice roller for generating random dice.
+This is a basic dice roller program built in python 2.7.x
 
-Usage is done by,
-./diceroller XdY+Z
+To X number of dice with Y sides, just run as,
 
-There are a small amount of options availble. These can be found by,
+python diceroller.py XdY
 
-./diceroller -h
+If you wish to add a number to the resulting roll you can simply just,
+
+python diceroller.py XdY+Z
+
+
+There are also analyitics that you can run on a range of dice rolls.
+For instance, if you wanted to roll 2d6 and wanted to collect a large number of rolls to experimentally determine the probablility of rolling a particular value, simply,
+
+python diceroller.py 2d6 -e <samplesize>
+
+samplesize can be an ungodly number, like 10**10.
+
+Happy rolling!
