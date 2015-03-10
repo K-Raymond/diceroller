@@ -2,17 +2,6 @@
 
 This is a basic dice roller program built in python 2.7.x
 
-<<<<<<< HEAD
-Usage is done by:
-```
-python ./diceroll.py XdY+Z
-```
-
-There are a small amount of options availble. These can be found by,
-```
-python ./diceroll.py -h
-```
-=======
 To X number of dice with Y sides, just run as,
 ```
 python diceroller.py XdY
@@ -29,7 +18,7 @@ python diceroller.py 2d6 -e [samplesize]
 samplesize can be an ungodly number, like `10**10`.
 
 Happy rolling!
-
+==========
 # Future features may include,
 1. Analytics
   1. Calculating probablilities from a general formula
